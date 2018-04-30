@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:fragment="head">
     <meta charset="UTF-8">
     <title>Micro service front end</title>
-    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
 <div class="container">
-    Hello World
     <tr th:each="customer : ${customers}">
         <td th:text="${customer.name}">Onions</td>
         <td th:text="${customer.email}">2.41</td>
     </tr>
 </div>
-<script src="../static/js/bootstrap.bundle.js"></script>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

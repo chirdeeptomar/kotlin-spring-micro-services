@@ -20,6 +20,7 @@ class HomeController(val restTemplate: RestTemplate) {
     }
 
     fun getInMemoryCustomers(model: Model): String {
+        println("Calling Hystrix Fallback method")
         val c1 = Customer("John", "john@service.com", UUID.randomUUID())
         val c2 = Customer("Emily", "emily@service.com", UUID.randomUUID())
         val c3 = Customer("Mike", "mike@service.com", UUID.randomUUID())
