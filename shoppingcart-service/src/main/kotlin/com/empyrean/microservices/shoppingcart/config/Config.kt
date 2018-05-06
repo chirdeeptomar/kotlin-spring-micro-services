@@ -1,6 +1,6 @@
 package com.empyrean.microservices.shoppingcart.config
 
-import com.empyrean.microservices.shoppingcart.api.requests.CartItem
+import com.empyrean.microservices.shoppingcart.api.requests.Cart
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.lettuce.core.support.RedisClientFactoryBean
@@ -18,16 +18,16 @@ import org.springframework.data.redis.serializer.StringRedisSerializer
 class RedisConfig {
 
     @Bean
-    fun reactiveRedisTemplate(redisConnectionFactory: ReactiveRedisConnectionFactory): ReactiveRedisTemplate<String, Array<CartItem>> {
-        val serializer = Jackson2JsonRedisSerializer(Array<CartItem>::class.java)
-        val builder = RedisSerializationContext.newSerializationContext<String, Array<CartItem>>(StringRedisSerializer())
+    fun reactiveRedisTemplate(connectionFactory: ReactiveRedisConnectionFactory): ReactiveRedisTemplate<String, Cart> {
+        val serializer = Jackson2JsonRedisSerializer(Cart::class.java)
+        val builder = RedisSerializationContext.newSerializationContext<String, Cart>(StringRedisSerializer())
         val serializationContext = builder.value(serializer).build()
-        return ReactiveRedisTemplate(redisConnectionFactory, serializationContext)
+        return ReactiveRedisTemplate(connectionFactory, serializationContext)
     }
 
     @Bean
-    fun reactiveRedisConnection(redisConnectionFactory: ReactiveRedisConnectionFactory): ReactiveRedisConnection {
-        return redisConnectionFactory.reactiveConnection
+    fun reactiveRedisConnection(connectionFactory: ReactiveRedisConnectionFactory): ReactiveRedisConnection {
+        return connectionFactory.reactiveConnection
     }
 
     @Bean

@@ -1,6 +1,6 @@
 package com.empyrean.microservices.shoppingcart.api
 
-import com.empyrean.microservices.shoppingcart.api.requests.CartItem
+import com.empyrean.microservices.shoppingcart.api.requests.Cart
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.annotation.Bean
@@ -33,7 +33,7 @@ class Router(private val cartHandler: CartHandler, val mapper: ObjectMapper) {
                             .flatMap { data ->
                                 ServerResponse
                                         .ok()
-                                        .body(BodyInserters.fromPublisher(Mono.just(data), Array<CartItem>::class.java))
+                                        .body(BodyInserters.fromPublisher(Mono.just(data), Cart::class.java))
                             }
                             .switchIfEmpty(ServerResponse.notFound().build())
                 }
