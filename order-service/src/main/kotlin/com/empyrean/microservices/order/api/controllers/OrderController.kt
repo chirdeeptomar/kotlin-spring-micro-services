@@ -35,9 +35,16 @@ class OrderController(private val orderRepository: OrderRepository, private val 
                 .map {
                     ResponseEntity.ok(OrderPlacedResponse("Order Placed", it))
                 }
-                .switchIfEmpty(ResponseEntity
-                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .build<OrderPlacedResponse>().toMono())
+                .switchIfEmpty(
+                        ResponseEntity
+                                .status(HttpStatus.NOT_FOUND)
+                                .build<OrderPlacedResponse>().toMono()
+                )
+                .doOnError {
+                    ResponseEntity
+                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .build<OrderPlacedResponse>().toMono()
+                }
     }
 }
 
