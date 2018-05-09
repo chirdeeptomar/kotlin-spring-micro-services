@@ -27,9 +27,7 @@ class OrderController(private val orderRepository: OrderRepository, private val 
                 .get()
                 .uri("/$customerId/cart", customerId)
                 .exchange()
-                .flatMap { response ->
-                    response.bodyToMono(Cart::class.java)
-                }
+                .flatMap { it.bodyToMono(Cart::class.java) }
                 .map { it.items.map { OrderItem(it.productId, it.quantity, it.price) } }
                 .map { items -> Order(customerId, items, UUID.randomUUID().toString()) }
                 .flatMap { orderRepository.save(it) }
